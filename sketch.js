@@ -1,28 +1,35 @@
-let brushColor, brushSize, brushType, bgColor;
-let brushColorBtn, brushSizeBtn, brushTypeBtn, bgColorBtn;
+let brushColor, brushType, bgColor,brushSize;
+let brushSizeSlider, brushTypeBtn, bgColorBtn;
 
 function setup() {
   // put setup code here
   bgColor = 255;
-  //brushColor = 0;
-  brushSize = 80;
+  //brushSize = 80;
   brushType = "spray";
+
   var cnv = createCanvas(1000, 700);
   cnv.position(100,25);
   background(bgColor);
+
   brushColor = createColorPicker('#000000');
   brushColor.position(0,0);
+
+  brushSizeSlider = createSlider(20, 200, 80);
+  brushSizeSlider.position(50,0);
+  brushSizeSlider.style('width', '80px');
+  brushSize = brushSizeSlider.value();
 }
 
 function draw() {
   // put drawing code here
+  brushSize = brushSizeSlider.value();
   fill(brushColor.color());
   if(mouseIsPressed) {
     if(brushType == "circle") {
       ellipse(mouseX, mouseY, brushSize, brushSize);
     } else if (brushType == "spray") {
       spray(mouseX, mouseY, brushSize, brushSize)
-    } else{
+    } else if (brushType == "square") {
       rect(mouseX, mouseY, brushSize, brushSize);
     }
     //ellipse(mouseX, mouseY, brushSize, brushSize);
