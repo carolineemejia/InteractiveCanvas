@@ -1,25 +1,26 @@
-let brushColor, brushType, bgColor,brushSize, previewBrush;
-let brushSizeSlider, brushTypeBtn, bgColorBtn;
+let brushColor, brushType, bgColor,brushSize, previewBrush, curColor;
+let brushSizeSlider;
 
 function setup() {
   // put setup code here
   bgColor = 255;
   //brushSize = 80;
-  brushType = "spray";
+  brushType = "circle";
   
   brushColor = createColorPicker('#000000');
-  brushColor.position(0,0);
+  brushColor.parent('tools');
+  curColor = brushColor.color();
 
-  brushSizeSlider = createSlider(20, 200, 80);
-  brushSizeSlider.position(50,0);
+  brushSizeSlider = createSlider(5, 100, 10);
+  brushSizeSlider.parent('tools');
   brushSizeSlider.style('width', '80px');
   brushSize = brushSizeSlider.value();
 
   var cnv = createCanvas(1100, 740);
-  cnv.position(0,0);
+  cnv.parent('sketch-container');
   background(bgColor);
 
-  fill('#191919')
+  fill('#1b1b1b')
   noStroke();
   rect(0,0,1100, 40);
   rect(0,0,100,740)
@@ -27,17 +28,21 @@ function setup() {
 
 function draw() {
   // put drawing code here
+  curColor = brushColor.color();
   brushSize = brushSizeSlider.value();
-  fill(brushColor.color());
+  fill(curColor);
+  noStroke();
   if(mouseIsPressed && mouseX > 100 && mouseY > 40) {
     if(brushType == "circle") {
-      ellipse(mouseX, mouseY, brushSize, brushSize);
+      ellipse(mouseX, mouseY, brushSize);
     } else if (brushType == "spray") {
-      spray(mouseX, mouseY, brushSize, brushSize)
+      spray()
     } else if (brushType == "square") {
-      rect(mouseX, mouseY, brushSize, brushSize);
+      rect(mouseX-(brushSize/2), mouseY-(brushSize/2), brushSize);
+    } else {
+      fill(bgColor);
+      rect(mouseX-(brushSize/2), mouseY-(brushSize/2), brushSize);
     }
-    //ellipse(mouseX, mouseY, brushSize, brushSize);
     noCursor();
   } else {
     cursor();
@@ -45,10 +50,10 @@ function draw() {
 }
 
 function spray() {
-  //brushColor.setAlpha(20);
-  stroke(brushColor.color(),20);
+  //curColor.setAlpha(90);
+  stroke(curColor);
   strokeWeight(2);
-  for(let i = 0; i<brushSize*1.5; i++) {
+  for(let i = 0; i<brushSize*1.7; i++) {
     let x = random(-brushSize/2,brushSize/2);
     let y = random(-brushSize/2,brushSize/2);
     if(sqrt(x*x + y*y) <= (brushSize/2) && mouseX+x > 100 && mouseY+y > 40) {
@@ -58,18 +63,23 @@ function spray() {
   //brushColor.setAlpha(100);
 }
 
-// function clear() {
-//   background(bgColor);
-// }
+function clear() {
+  clear();
+}
 
-// function changeBrushColor() {
+function circleBrush() {
+  brushType = 'circle'
+  document.getElementById("circle-btn").focus();
+}
 
-// }
+function squareBrush() {
+  brushType = 'square'
+}
 
-// function changeBrushSize() {
+function sprayBrush() {
+  brushType = 'spray'
+}
 
-// }
-
-// function changeBrushType() {
-
-// }
+function eraserBrush() {
+  brushType = 'erase'
+}

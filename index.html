@@ -11,6 +11,19 @@
       margin: 0;
       background-color: #1b1b1b;
     }
+    img {
+      width: 16px;
+      height: 16px;
+    }
+    .btn {
+      border:none;
+      outline: none;
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+    .active, .btn:hover {
+      background-color: #666;
+    }
   </style>
   <script src="../p5.min.js"></script>
   <!-- <script src="../addons/p5.sound.js"></script> -->
@@ -19,6 +32,22 @@
 
 <body>
   <main>
+    <div id="tools">
+      <button class="btn active" onclick="circleBrush()" id="circle-btn">
+        <img src="assets/oval.png" />
+      </button>
+      <button class="btn" onclick="squareBrush()" id="square-btn">
+        <img src="assets/square.png" />
+      </button>
+      <button class="btn" onclick="sprayBrush()" id="spray-btn">
+        <img src="assets/spray.png" />
+      </button>
+      <button class="btn" onclick="eraserBrush()" id="eraser-btn">
+        <img src="assets/eraser.png" />
+      </button>
+    </div>
+    Canvas
+    <div id="sketch-container"></div>
   </main>
 </body>
 
