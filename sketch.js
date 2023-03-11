@@ -1,30 +1,47 @@
 let brushColor, brushType, bgColor,brushSize, previewBrush, curColor;
-let brushSizeSlider;
+let brushSizeSlider, alphaSlider, curBtn, brushList, brushIndex;
 
 function setup() {
   // put setup code here
   bgColor = 255;
-  //brushSize = 80;
-  brushType = "circle";
+  brushList = ['circle','square','spray','erase']
+  brushIndex = 0;
+  brushType = brushList[brushIndex];
   
   brushColor = createColorPicker('#000000');
-  brushColor.parent('tools');
+  brushColor.parent('color-sel');
   curColor = brushColor.color();
 
   brushSizeSlider = createSlider(10, 100, 20);
-  brushSizeSlider.parent('tools');
+  brushSizeSlider.parent('brush-size');
   brushSizeSlider.style('width', '80px');
   brushSize = brushSizeSlider.value();
+  document.getElementById("size-text").innerHTML=brushSize;
+
+  alphaSlider = createSlider(0,255, 255);
+  alphaSlider.parent('alpha-slider');
+  alphaSlider.style('width', '80px');
+  alphaSize = alphaSlider.value();
+  document.getElementById('alpha-text').innerHTML=round(alphaSize/255*100);
 
   var cnv = createCanvas(windowWidth - 100, windowHeight - 20);
   cnv.parent('sketch-container');
   background(bgColor);
+
+  curBtn = document.getElementById("circle-btn");
+  curColor.setAlpha(alphaSize);
 }
 
 function draw() {
   // put drawing code here
+  cursor(CROSS);
   curColor = brushColor.color();
+  alphaSize = alphaSlider.value();
+  curColor.setAlpha(alphaSize);
+  document.getElementById('alpha-text').innerHTML=round(alphaSize/255*100);
+
   brushSize = brushSizeSlider.value();
+  document.getElementById("size-text").innerHTML=brushSize;
   fill(curColor);
   noStroke();
   if(mouseIsPressed && clamp()) {
@@ -38,9 +55,38 @@ function draw() {
       fill(bgColor);
       rect(mouseX-(brushSize/2), mouseY-(brushSize/2), brushSize);
     }
-    noCursor();
-  } else {
-    cursor();
+  }
+}
+
+function keyPressed() {
+  switch(key) {
+    case ',':
+      brushIndex -= 1;
+      if(brushIndex < 0) {
+        brushIndex = 3;
+      }
+      break;
+    case '.':
+      brushIndex += 1;
+      if(brushIndex > 3) {
+        brushIndex = 0;
+      }
+      brushType = brushList[brushIndex];
+      break;
+  }
+  switch(brushIndex) {
+    case 0:
+      circleBrush();
+      break;
+    case 1:
+      squareBrush();
+      break;
+    case 2:
+      sprayBrush();
+      break;
+    case 3:
+      eraserBrush();
+      break;
   }
 }
 
@@ -62,23 +108,44 @@ function clamp() {
   return mouseX > 0 && mouseX < windowWidth-100 && mouseY > 0 && mouseY < windowHeight-20;
 }
 
-function clear() {
+function clearCanvas() {
   clear();
+  background(bgColor);
 }
 
 function circleBrush() {
-  brushType = 'circle'
-  document.getElementById("circle-btn").focus();
+  brushIndex = 0;
+  brushType = brushList[brushIndex];
+  var btn = document.getElementById("circle-btn");
+  console.log(btn)
+  curBtn.className = curBtn.className.replace(" active","");
+  btn.className += " active"
+  curBtn = document.getElementById("circle-btn");
 }
 
 function squareBrush() {
-  brushType = 'square'
+  brushIndex = 1;
+  brushType = brushList[brushIndex];
+  var btn = document.getElementById("square-btn");
+  curBtn.className = curBtn.className.replace(" active","");
+  btn.className += " active"
+  curBtn = document.getElementById("square-btn");
 }
 
 function sprayBrush() {
-  brushType = 'spray'
+  brushIndex = 2;
+  brushType = brushList[brushIndex];
+  var btn = document.getElementById("spray-btn");
+  curBtn.className = curBtn.className.replace(" active","");
+  btn.className += " active"
+  curBtn = document.getElementById("spray-btn");
 }
 
 function eraserBrush() {
-  brushType = 'erase'
+  brushIndex = 3;
+  brushType = brushList[brushIndex];
+  var btn = document.getElementById("eraser-btn");
+  curBtn.className = curBtn.className.replace(" active","");
+  btn.className += " active"
+  curBtn = document.getElementById("eraser-btn");
 }

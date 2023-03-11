@@ -13,21 +13,43 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      color: white;
     }
     img {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      padding: 2px;
     }
     .btn {
+      text-align: right;
       outline: none;
       background-color: #f1f1f1;
       cursor: pointer;
+      margin: 5px;
     }
     .active, .btn:hover {
       background-color: #666;
     }
     #tools {
+      color: black;
       background-color: white;
+      border: #666;
+      border-radius: 10px;
+      margin: 10px 0 10px;
+      padding: 10px 20px 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      vertical-align: center;
+    }
+    #color-sel {
+      display:inline-flex;
+      flex-direction: column;
+    }
+    #brush-size, #alpha-slider {
+      display: inline-flex;
+      flex-direction: column;
+    }
+    #sketch-container {
+      border-radius: 10px;
     }
   </style>
   <script src="../p5.min.js"></script>
@@ -37,19 +59,36 @@
 
 <body>
   <main>
+    <h1>Interactive Canvas</h1>
     <div id="tools">
-      <button class="btn active" onclick="circleBrush()" id="circle-btn">
-        <img src="assets/oval.png" />
-      </button>
-      <button class="btn" onclick="squareBrush()" id="square-btn">
-        <img src="assets/square.png" />
-      </button>
-      <button class="btn" onclick="sprayBrush()" id="spray-btn">
-        <img src="assets/spray.png" />
-      </button>
-      <button class="btn" onclick="eraserBrush()" id="eraser-btn">
-        <img src="assets/eraser.png" />
-      </button>
+        <span id="color-sel">
+          Color:
+        </span>
+        <span id="alpha-slider">
+          <span>
+            Transparency: <span id="alpha-text"></span>
+          </span>
+        </span>
+        <span id="brush-size">
+          <span>
+            Brush Size: <span id="size-text"></span>
+          </span>
+        </span>
+      <span class="btn-group">
+        <button class="btn active" onclick="circleBrush()" id="circle-btn">
+          <img src="assets/oval.png" />
+        </button>
+        <button class="btn" onclick="squareBrush()" id="square-btn">
+          <img src="assets/square.png" />
+        </button>
+        <button class="btn" onclick="sprayBrush()" id="spray-btn">
+          <img src="assets/spray.png" />
+        </button>
+        <button class="btn" onclick="eraserBrush()" id="eraser-btn">
+          <img src="assets/eraser.png" />
+        </button>
+        <button class="btn" onclick="clearCanvas()">Clear</button>
+      </div>
     </div>
     <div id="sketch-container"></div>
   </main>
