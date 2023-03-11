@@ -24,7 +24,7 @@ function setup() {
   alphaSize = alphaSlider.value();
   document.getElementById('alpha-text').innerHTML=round(alphaSize/255*100);
 
-  var cnv = createCanvas(windowWidth - 100, windowHeight - 20);
+  var cnv = createCanvas(windowWidth - 100, windowHeight - 200);
   cnv.parent('sketch-container');
   background(bgColor);
 
@@ -105,7 +105,7 @@ function spray() {
 }
 
 function clamp() {
-  return mouseX > 0 && mouseX < windowWidth-100 && mouseY > 0 && mouseY < windowHeight-20;
+  return mouseX > 0 && mouseX < windowWidth-100 && mouseY > 0 && mouseY < windowHeight-200;
 }
 
 function clearCanvas() {
